@@ -4,7 +4,6 @@
 
 EAPI="6"
 
-inherit systemd
 
 SRC_URI="https://github.com/flatpak/${PN}/releases/download/${PV}/${P}.tar.xz"
 DESCRIPTION="GTK/GNOME backend for xdg-desktop-portal"
@@ -30,7 +29,6 @@ DEPEND="${RDEPEND}
 
 src_configure() {
 
-	econf \
-		--with-systemduserunitdir="$(systemd_get_userunitdir)"
+	econf
 
 }

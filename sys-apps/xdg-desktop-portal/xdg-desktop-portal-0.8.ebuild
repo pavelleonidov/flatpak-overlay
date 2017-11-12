@@ -4,8 +4,6 @@
 
 EAPI="6"
 
-inherit systemd
-
 SRC_URI="https://github.com/flatpak/${PN}/releases/download/${PV}/${P}.tar.xz"
 DESCRIPTION="A portal frontend service for Flatpak and possibly other desktop containment frameworks"
 HOMEPAGE="http://flatpak.org/"
@@ -25,11 +23,3 @@ DEPEND="${RDEPEND}
 	doc? ( app-text/xmlto
 	       app-text/docbook-xml-dtd:4.3 )
 "
-
-src_configure() {
-
-	econf \
-		$(use_enable doc docbook-docs) \
-		--with-systemduserunitdir="$(systemd_get_userunitdir)"
-
-}

@@ -3,7 +3,7 @@
 
 EAPI="6"
 
-inherit autotools eutils systemd
+inherit autotools eutils
 
 SRC_URI="https://github.com/ostreedev/ostree/releases/download/v${PV}/${P}.tar.xz"
 DESCRIPTION="OSTree is a tool for managing bootable, immutable, versioned filesystem trees."
@@ -12,7 +12,7 @@ HOMEPAGE="https://github.com/ostreedev/ostree"
 LICENSE="LGPL-2"
 SLOT="0"
 
-IUSE="avahi curl gnutls introspection doc +libmount man openssl +soup +systemd"
+IUSE="avahi curl gnutls introspection doc +libmount man openssl +soup"
 
 KEYWORDS="amd64"
 
@@ -33,7 +33,6 @@ RDEPEND="
 	gnutls? ( >=net-libs/gnutls-3.5 )
 	openssl? ( >=dev-libs/openssl-1.0.1 )
 	soup? ( >=net-libs/libsoup-2.40 )
-	systemd? ( sys-apps/systemd )
 	libmount? ( >=sys-apps/util-linux-2.23 )
 "
 DEPEND="${RDEPEND}
@@ -49,11 +48,6 @@ DEPEND="${RDEPEND}
 src_configure() {
 
 	local myconf=()
-
-	# FIXME: it is not possible to hard disable systemd in the configure script.
-	# systemd only seems needed for booting ostree images
-	use systemd \
-		&& myconf+=( --with-systemdsystemunitdir="$(systemd_get_systemunitdir)" )
 
 	if ! use soup && use curl; then
 		myconf+=( $(use_with curl) )
@@ -92,7 +86,5 @@ src_install() {
 
 	default
 
-	# see https://github.com/fosero/flatpak-overlay/issues/1
-	rm -f ${D}/etc/grub.d/15_ostree
 
 }
